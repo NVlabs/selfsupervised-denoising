@@ -144,9 +144,6 @@ The evaluation results should match the paper.  For example, the network used in
 | ----------------------------- | -------- | -------- | -------- |
 | gauss25-blindspot-sigma_known | 32.45 dB | 31.03 dB | 31.25 dB |
 
-Note: Some versions of `imageio.imread()` mistakenly apply a gamma correction to the .png files in the Kodak test set.  If you
-get a result of 32.97 dB for Kodak in the case above, try updating the module or using a different image loader (e.g., `scipy.misc.imread()`).
-
 ## Acknowledgements
 
 We thank Arno Solin and Samuel Kaski for helpful comments, and Janne Hellsten and Tero Kuosmanen for the compute infrastructure.

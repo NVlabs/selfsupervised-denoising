@@ -161,7 +161,7 @@ def load_datasets(num_channels, dataset_dir, train_dataset, validation_dataset, 
                   'set14':  os.path.join(dataset_dir, 'Set14', '*.png')}
         fn = submit.get_path_from_template(paths[validation_dataset])
         print("Loading validation dataset from '%s'." % fn)
-        validation_images = [imageio.imread(x) for x in glob.glob(fn)]
+        validation_images = [imageio.imread(x, ignoregamma=True) for x in glob.glob(fn)]
         validation_images = [x[..., np.newaxis] if len(x.shape) == 2 else x for x in validation_images] # Add channel axis to grayscale images.
         validation_images = [x.transpose([2, 0, 1]) for x in validation_images]
         validation_images = [set_color_channels(x, num_channels) for x in validation_images] # Enforce RGB/grayscale mode.
