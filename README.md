@@ -11,7 +11,7 @@ _We describe a novel method for training high-quality image denoising models bas
 ## Resources
 
 - [Paper](https://arxiv.org/abs/1901.10277) (arXiv)
-- Pretrained networks coming soon
+- [Pre-trained networks](https://drive.google.com/open?id=1tatE9WFNSqzLm_aso3Wy05j90_wkMmo4)
 
 All material is made available under [Creative Commons BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) license by NVIDIA Corporation. You can **use, redistribute, and adapt** the material for **non-commercial purposes**, as long as you give appropriate credit by **citing our paper** and **indicating any changes** that you've made.
 
@@ -137,6 +137,15 @@ In evaluation mode, the random seeds are fixed so that the generated noise is re
 is evaluated against the exact same images.  In addition, the validation sets are replicated several times to obtain ~300
 total validation images.  This is important especially for variable noise types, to ensure that each image is evaluated using
 various amounts of noise.  Note that the noise and network types are inferred from the filename of the trained network.
+
+The evaluation results should match the paper.  For example, the network used in the command-line example should give the following PSNRs:
+
+| Network                       | Kodak    | BSD300   | Set14    |
+| ----------------------------- | -------- | -------- | -------- |
+| gauss25-blindspot-sigma_known | 32.45 dB | 31.03 dB | 31.25 dB |
+
+Note: Some versions of `imageio.imread()` mistakenly apply a gamma correction to the .png files in the Kodak test set.  If you
+get a result of 32.97 dB for Kodak in the case above, try updating the module or using a different image loader (e.g., `scipy.misc.imread()`).
 
 ## Acknowledgements
 

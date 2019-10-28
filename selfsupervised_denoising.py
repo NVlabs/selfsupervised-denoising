@@ -675,16 +675,19 @@ def train(submit_config,
             noise_coeff = tf.zeros([tf.shape(noisy_in_gpu)[0], 1, 1, 1]) + noise_coeff # Broadcast to [n, 1, 1, 1] shape.
 
             # Support for networks that were exported from an older version of code and loaded for evaluation purposes.
-            if pipeline == 'blindspot':
-                if net.num_inputs == 3:
-                    mu_x, pme_out, loss_out, net_std_out, noise_std_out, _ = net_gpu.get_output_for(noisy_in_gpu, noise_coeff, L_exponent_in) # Previous version.
-                else:
-                    mu_x, pme_out, loss_out, net_std_out, noise_std_out = net_gpu.get_output_for(noisy_in_gpu, noise_coeff)
+            if net.num_inputs == 5:
+                mu_x, pme_out, loss_out, net_std_out, noise_std_out, _ = net_gpu.get_output_for(reference_in_gpu, noisy_in_gpu, noise_coeff, tf.constant(1e-6, dtype=tf.float32), tf.constant(1e-1, dtype=tf.float32))
             else:
-                if net.num_inputs == 4:
-                    mu_x, pme_out, loss_out, net_std_out, noise_std_out, _ = net_gpu.get_output_for(reference_in_gpu, noisy_in_gpu, noise_coeff, L_exponent_in) # Previous version.
+                if pipeline == 'blindspot':
+                   if net.num_inputs == 3:
+                        mu_x, pme_out, loss_out, net_std_out, noise_std_out, _ = net_gpu.get_output_for(noisy_in_gpu, noise_coeff, L_exponent_in) # Previous version.
+                   else:
+                        mu_x, pme_out, loss_out, net_std_out, noise_std_out = net_gpu.get_output_for(noisy_in_gpu, noise_coeff)
                 else:
-                    mu_x, pme_out, loss_out, net_std_out, noise_std_out = net_gpu.get_output_for(reference_in_gpu, noisy_in_gpu, L_exponent_in)
+                    if net.num_inputs == 4:
+                        mu_x, pme_out, loss_out, net_std_out, noise_std_out, _ = net_gpu.get_output_for(reference_in_gpu, noisy_in_gpu, noise_coeff, L_exponent_in) # Previous version.
+                    else:
+                        mu_x, pme_out, loss_out, net_std_out, noise_std_out = net_gpu.get_output_for(reference_in_gpu, noisy_in_gpu, L_exponent_in)
 
             gpu_outputs.append([mu_x, pme_out, loss_out, net_std_out, noise_std_out, noisy_in_gpu])
 
